@@ -15,6 +15,18 @@ class UserSerializer(serializers.ModelSerializer):
         """Create a new user with encrypted pass and return it"""
         return get_user_model().objects.create_user(**validated_data)
 
+    def update(self, instance, validated_data):
+        """Update a user by setting the password and return it"""
+        password = validated_data.pop("password", None)
+        user = super().update(instance, validated_data)
+
+        if password:
+            user.set_password(password)
+            user.save()
+
+        return user
+
+
 class AuthTokenSerializer(serializers.Serializer):
     """Serializuer for the User authentication object"""
     email = serializers.CharField()
@@ -22,6 +34,7 @@ class AuthTokenSerializer(serializers.Serializer):
         style={"input_type": "password"},
         trim_whitespace=False
     )
+
     def validate(self, attributes):
         """Validate and auth the user"""
         email = attributes.get("email")
