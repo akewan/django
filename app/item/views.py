@@ -25,7 +25,8 @@ class TagViewset(viewsets.GenericViewSet,
 
 
 class FeatureViewset(viewsets.GenericViewSet,
-                     mixins.ListModelMixin):
+                     mixins.ListModelMixin,
+                     mixins.CreateModelMixin):
     """Manage features in the databse"""
     authentication_classes = (TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
@@ -35,3 +36,7 @@ class FeatureViewset(viewsets.GenericViewSet,
     def get_queryset(self):
         """Return objects for the current authenticated user"""
         return self.queryset.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        """Create a new tag"""
+        serializer.save(user=self.request.user)
