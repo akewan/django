@@ -64,3 +64,14 @@ class TestModels(TestCase):
         )
 
         self.assertEqual(str(feature), feature.name)
+
+    def test_item_str(self):
+        """Test the item string representation"""
+        item = models.Item.objects.create(
+            user=sample_user(),
+            title="Red Dress",
+            description="Very nice dress",
+            price=250.00
+        )
+
+        self.assertEqual(str(item), item.title)
