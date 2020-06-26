@@ -6,6 +6,7 @@ from item import views
 
 router = DefaultRouter()
 router.register("tags", views.TagViewset)
+router.register("features", views.FeatureViewset)
 
 app_name = "item"
 

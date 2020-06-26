@@ -55,3 +55,12 @@ class TestModels(TestCase):
         )
 
         self.assertEqual(str(tag), tag.name)
+
+    def test_feature_str(self):
+        """Test the attribute string representation"""
+        feature = models.Feature.objects.create(
+            user=sample_user(),
+            name="color"
+        )
+
+        self.assertEqual(str(feature), feature.name)
